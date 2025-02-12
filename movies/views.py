@@ -1,5 +1,6 @@
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from .models import Movie
 
 data = {
     "movies": [
@@ -13,8 +14,39 @@ data = {
 
 
 def movies(request):
-    return render(request, "movies/movies.html", data)
+    title = request.POST.get("title")
+    year = request.POST.get("year")
+
+    if title and year:
+        movie = Movie(title=title, year=year)
+        movie.save()
+        return HttpResponseRedirect("/movies")
+
+    movies_data = Movie.objects.all()
+    return render(request, "movies/movies.html", {"movies": movies_data})
 
 
 def home(request):
     return HttpResponse("Home Page")
+
+
+def detail(request, id):
+    try:
+        movie_data = Movie.objects.get(pk=id)
+        return render(request, "movies/detail.html", {"movie": movie_data})
+    except:
+        raise Http404("Movie does not exists!")
+
+
+def create(request):
+    return render(request, "movies/create.html")
+
+
+def delete(request, id):
+    try:
+        movie_data = Movie.objects.get(pk=id)
+    except:
+        raise Http404("Movie does not exists!")
+
+    movie_data.delete()
+    return HttpResponseRedirect("/movies")

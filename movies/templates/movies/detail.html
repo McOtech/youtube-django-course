@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Movie</title>
+  </head>
+
+  <body>
+    <h1>{{movie.title}}</h1>
+    <p>{{movie.year}}</p>
+
+    {% comment %} <a href="/movies/{{movie.id}}">Delete</a> {% endcomment %}
+    <form action="/movies/delete/{{movie.id}}" method="DELETE">
+      <input type="submit" value="Delete Movie" />
+    </form>
+  </body>
+</html>
