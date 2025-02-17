@@ -1,6 +1,8 @@
-from django.http import Http404
+import os
+from django.http import FileResponse, Http404
 from django.shortcuts import render
-from uploads.models import Movie
+from uploads import settings
+from uploads.models import File, Movie
 
 
 def movie(request, id):
@@ -9,3 +11,17 @@ def movie(request, id):
         return render(request, "movies/movie.html", {"movie": movie})
     else:
         raise Http404("Movie does not exists")
+
+
+def download_file(request, id):
+    file_object = File.objects.get(pk=id)
+    if file_object is not None:
+        # try:
+        path = os.path.join(settings.BASE_DIR, str(file_object.path))
+        file = open(path, "rb")
+        return FileResponse(file, as_attachment=True)
+        # except error:
+        #     print(file_object.path)
+        #     raise Http404("Error while trying to download the file")
+    else:
+        raise Http404("File does not exists")

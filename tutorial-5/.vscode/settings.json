@@ -1,0 +1,11 @@
+{
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "always"
+    }
+  },
+  "isort.args": ["--profile", "black"],
+  "python.linting.pylintArgs": ["--load-plugins=pylint_django"]
+}

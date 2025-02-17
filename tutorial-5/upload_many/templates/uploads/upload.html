@@ -1,0 +1,14 @@
+<!-- multiuploader/templates/multiuploader/upload.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Multiple File Upload</title>
+  </head>
+  <body>
+    <h2>Upload Three Files</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Upload Files</button>
+    </form>
+  </body>
+</html>

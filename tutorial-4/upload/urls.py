@@ -1,5 +1,5 @@
 """
-URL configuration for uploads project.
+URL configuration for upload project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -18,14 +18,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from django.conf import settings
 
-from uploads import views
+from upload import settings
+from upload.views import FileUploadView, upload_success
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("movies/<int:id>", views.movie),
-    path("download/<int:id>", views.download_file),
+    path("upload/", FileUploadView.as_view(), name="file_upload"),
+    path("success/", upload_success, name="upload_success"),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
